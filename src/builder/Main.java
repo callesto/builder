@@ -127,14 +127,14 @@ public class Main {
                         || "jwarn\\installer".equals(elements[0])
                         || "jwarn/installer".equals(elements[0])) {
                     //Build installer
-                    System.out.println("\nCommand: gradle clean dist -PjwaccsVersion=" + jwaccsVersion + 
+                    System.out.println("\nCommand: gradle clean dist" + 
                             " -PenterpriseMavenRepo=" + repoLocation + 
                             " -PjwarnVersion=" + jwarnVersion + 
                             " -PcoreVersion=" + coreVersion + 
                             " -PjwarnEtcVersion=" + etcVersion + 
                             " -PsensorManagementVersion=" + smVersion + 
                             " -PmavenUser=jwarn -PmavenPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
-                    executeCommand("gradle clean dist -PjwaccsVersion=" + jwaccsVersion + 
+                    executeCommand("gradle clean dist" + 
                             " -PenterpriseMavenRepo=" + repoLocation + 
                             " -PjwarnVersion=" + jwarnVersion + 
                             " -PcoreVersion=" + coreVersion + 
