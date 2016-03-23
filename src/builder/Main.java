@@ -117,10 +117,12 @@ public class Main {
                     System.out.println("\nCommand: gradle clean install -PjwarnVersion=" + coreVersion + 
                             " -Pversion=" + smVersion + 
                             " -PenterpriseMavenRepo=" + repoLocation + 
+                            " -PuseMavenLocal=true" + 
                             " -PorlandoUser=jwarn -PorlandoPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
                     executeCommand("gradle clean install -PjwarnVersion=" + coreVersion + 
                             " -Pversion=" + smVersion + 
                             " -PenterpriseMavenRepo=" + repoLocation + 
+                            " -PuseMavenLocal=true" + 
                             " -PorlandoUser=jwarn -PorlandoPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
 
                 } else if (elements[0].contains("installer")
@@ -133,6 +135,7 @@ public class Main {
                             " -PcoreVersion=" + coreVersion + 
                             " -PjwarnEtcVersion=" + etcVersion + 
                             " -PsensorManagementVersion=" + smVersion + 
+                            " -PuseMavenLocal=true" + 
                             " -PmavenUser=jwarn -PmavenPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
                     executeCommand("gradle clean dist" + 
                             " -PenterpriseMavenRepo=" + repoLocation + 
@@ -140,6 +143,7 @@ public class Main {
                             " -PcoreVersion=" + coreVersion + 
                             " -PjwarnEtcVersion=" + etcVersion + 
                             " -PsensorManagementVersion=" + smVersion + 
+                            " -PuseMavenLocal=true" + 
                             " -PmavenUser=jwarn -PmavenPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
 
                 } else {
