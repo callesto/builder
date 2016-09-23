@@ -9,7 +9,7 @@ sourcesLocation=C:\\JWARN-Web\\jwarn-2.1.2.2-sources
 modules=dependencies\\com.omi.atp45e.formatsupport.adatp3.baseline14.xml-1.0.9-src\com.omi.atp45e.formatsupport.adatp3.baseline14.xml-1.0.9:mvn,dependencies\\com.omi.atp45e.implementation-2.1.3-src\\com.omi.atp45e.implementation-2.1.3:mvn,dependencies\\com.omi.erg.core-3.0.3-src\\com.omi.erg.core-3.0.3:mvn,dependencies\\com.omi.ffe.core-3.0.2-src\\com.omi.ffe.core-3.0.2:mvn,dependencies\\com.omi.moppstatus.core-2.1.1-src\\com.omi.moppstatus.core-2.1.1:mvn,dependencies\\com.omi.util.coordinates-4.0.2-src\\com.omi.util.coordinates-4.0.2:mvn,dependencies\\com.omi.util.core-5.1.1-src\\com.omi.util.core-5.1.1:mvn,dependencies\\com.omi.util.geometry-4.0.2-src\\com.omi.util.geometry-4.0.2:mvn,dependencies\\com.omi.util.geometry-api-4.0.2-src\\com.omi.util.geometry-api-4.0.2:mvn,dependencies\\com.omi.util.geometry-java2d-4.0.2-src\\com.omi.util.geometry-java2d-4.0.2:mvn,dependencies\\com.omi.util.kmlexport-4.0.2-src\\com.omi.util.kmlexport-4.0.2:mvn,dependencies\\com.omi.web.jsonparser.echo-1.0.11-src\\com.omi.web.jsonparser.echo-1.0.11:mvn,dependencies\\com.omi.web.tools.erg-1.0.15-src\\com.omi.web.tools.erg-1.0.15:mvn,dependencies\\com.omi.web.tools.quickattack.echo-1.0.15-src\\com.omi.web.tools.quickattack.echo-1.0.15:mvn,dependencies\\com.omi.web.unifiedwebgui-3.0.13-src\\com.omi.web.unifiedwebgui-3.0.13:mvn,dependencies\\omi.md.jwarn.atp45c.core-1.0.29-src\\omi.md.jwarn.atp45c.core-1.0.29:mvn,dependencies\\omi.md.jwarn.atp45c.kml-1.0.1-src\\omi.md.jwarn.atp45c.kml-1.0.1:mvn,dependencies\\omi.md.jwarn.atp45c.util-1.0.3-src\\omi.md.jwarn.atp45c.util-1.0.3:mvn,cas:mvn,core:mvn,etc:mvn,sensor:gradle,jwarn\\installer:gradlemavenParameters=clean install -npu -nsu -c
 repoLocation=C:\\JWARN-Web\\repository
 mavenParameters=clean install -nsu -npu -c
-*/
+ */
 package builder;
 
 import java.io.File;
@@ -36,7 +36,7 @@ public class Main {
             System.out.println("Usage: Builder.jar [full path to properties file]");
             System.exit(0);
         }
-
+        long startTime = System.nanoTime();
         InputStream input = null;
         try {
             String propFileName = args[0];
@@ -92,7 +92,12 @@ public class Main {
                 }
             }
         }
-
+        
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000000;  //divide by 1000000 to get milliseconds.
+        long minutes = (duration / 1000)  / 60;
+        int seconds = (int) ((duration / 1000) % 60);
+        System.out.println("Total Build Time: " + minutes + " minutes, " + seconds + " seconds");
     }
 
     private static void buildJwarn(String location, String jwarnVersion, String coreVersion, String etcVersion, String smVersion, String modules, String mavenParameters, String repoLocation, String jwaccsVersion) throws InterruptedException {
@@ -114,37 +119,37 @@ public class Main {
 
                 } else if ("sensor".equals(elements[0])) {
                     //Build Sensor
-                    System.out.println("\nCommand: gradle clean install -PjwarnVersion=" + coreVersion + 
-                            " -Pversion=" + smVersion + 
-                            " -PenterpriseMavenRepo=" + repoLocation + 
-                            " -PuseMavenLocal=true" + 
-                            " -PorlandoUser=jwarn -PorlandoPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
-                    executeCommand("gradle clean install -PjwarnVersion=" + coreVersion + 
-                            " -Pversion=" + smVersion + 
-                            " -PenterpriseMavenRepo=" + repoLocation + 
-                            " -PuseMavenLocal=true" + 
-                            " -PorlandoUser=jwarn -PorlandoPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
+                    System.out.println("\nCommand: gradle clean install -PjwarnVersion=" + coreVersion
+                            + " -Pversion=" + smVersion
+                            + " -PenterpriseMavenRepo=" + repoLocation
+                            + " -PuseMavenLocal=true"
+                            + " -PorlandoUser=jwarn -PorlandoPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
+                    executeCommand("gradle clean install -PjwarnVersion=" + coreVersion
+                            + " -Pversion=" + smVersion
+                            + " -PenterpriseMavenRepo=" + repoLocation
+                            + " -PuseMavenLocal=true"
+                            + " -PorlandoUser=jwarn -PorlandoPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
 
                 } else if (elements[0].contains("installer")
                         || "jwarn\\installer".equals(elements[0])
                         || "jwarn/installer".equals(elements[0])) {
                     //Build installer
-                    System.out.println("\nCommand: gradle clean dist" + 
-                            " -PenterpriseMavenRepo=" + repoLocation + 
-                            " -PjwarnVersion=" + jwarnVersion + 
-                            " -PcoreVersion=" + coreVersion + 
-                            " -PjwarnEtcVersion=" + etcVersion + 
-                            " -PsensorManagementVersion=" + smVersion + 
-                            " -PuseMavenLocal=true" + 
-                            " -PmavenUser=jwarn -PmavenPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
-                    executeCommand("gradle clean dist" + 
-                            " -PenterpriseMavenRepo=" + repoLocation + 
-                            " -PjwarnVersion=" + jwarnVersion + 
-                            " -PcoreVersion=" + coreVersion + 
-                            " -PjwarnEtcVersion=" + etcVersion + 
-                            " -PsensorManagementVersion=" + smVersion + 
-                            " -PuseMavenLocal=true" + 
-                            " -PmavenUser=jwarn -PmavenPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
+                    System.out.println("\nCommand: gradle clean dist"
+                            + " -PenterpriseMavenRepo=" + repoLocation
+                            + " -PjwarnVersion=" + jwarnVersion
+                            + " -PcoreVersion=" + coreVersion
+                            + " -PjwarnEtcVersion=" + etcVersion
+                            + " -PsensorManagementVersion=" + smVersion
+                            + " -PuseMavenLocal=true"
+                            + " -PmavenUser=jwarn -PmavenPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
+                    executeCommand("gradle clean dist"
+                            + " -PenterpriseMavenRepo=" + repoLocation
+                            + " -PjwarnVersion=" + jwarnVersion
+                            + " -PcoreVersion=" + coreVersion
+                            + " -PjwarnEtcVersion=" + etcVersion
+                            + " -PsensorManagementVersion=" + smVersion
+                            + " -PuseMavenLocal=true"
+                            + " -PmavenUser=jwarn -PmavenPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
 
                 } else {
                     System.out.println("\nCommand: gradle clean install -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
