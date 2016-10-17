@@ -17,8 +17,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -122,12 +120,10 @@ public class Main {
                     System.out.println("\nCommand: gradle clean install -PjwarnVersion=" + coreVersion
                             + " -Pversion=" + smVersion
                             + " -PenterpriseMavenRepo=" + repoLocation
-                            + " -PuseMavenLocal=true"
                             + " -PorlandoUser=jwarn -PorlandoPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
                     executeCommand("gradle clean install -PjwarnVersion=" + coreVersion
                             + " -Pversion=" + smVersion
                             + " -PenterpriseMavenRepo=" + repoLocation
-                            + " -PuseMavenLocal=true"
                             + " -PorlandoUser=jwarn -PorlandoPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
 
                 } else if (elements[0].contains("installer")
@@ -140,7 +136,6 @@ public class Main {
                             + " -PcoreVersion=" + coreVersion
                             + " -PjwarnEtcVersion=" + etcVersion
                             + " -PsensorManagementVersion=" + smVersion
-                            + " -PuseMavenLocal=true"
                             + " -PmavenUser=jwarn -PmavenPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
                     executeCommand("gradle clean dist"
                             + " -PenterpriseMavenRepo=" + repoLocation
@@ -148,7 +143,6 @@ public class Main {
                             + " -PcoreVersion=" + coreVersion
                             + " -PjwarnEtcVersion=" + etcVersion
                             + " -PsensorManagementVersion=" + smVersion
-                            + " -PuseMavenLocal=true"
                             + " -PmavenUser=jwarn -PmavenPassword=jwarn -b " + location + File.separator + elements[0] + File.separator + "build.gradle");
 
                 } else {
@@ -158,20 +152,6 @@ public class Main {
             }
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-    }
-
-    @Deprecated
-    private static void buildOMI(File[] files, String mavenParameters) throws IOException, InterruptedException {
-        for (File file : files) {
-            if (file.isDirectory()) {
-                //System.out.println("Directory: " + file.getName());
-                buildOMI(file.listFiles(), mavenParameters); // Calls same method again.
-            } else //System.out.println("File: " + file.getName());
-             if (file.getName().equals("pom.xml")) {
-                    System.out.println("Command: mvn " + mavenParameters + " -f " + file.getAbsoluteFile());
-                    executeCommand("mvn " + mavenParameters + " -f " + file.getAbsoluteFile());
-                }
         }
     }
 
@@ -190,7 +170,7 @@ public class Main {
                         System.out.write(buffer, 0, len);
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 }
             }
         }).start();
